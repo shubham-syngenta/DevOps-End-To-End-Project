@@ -16,10 +16,8 @@ jobs:
   deploy:
     name: Build & Deploy
     runs-on: ubuntu-latest
-    # environment: production
 
     steps:
-
     - name: Checkout
       uses: actions/checkout@v4
 
@@ -29,6 +27,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
+
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
@@ -37,11 +36,11 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ github.sha }}
+        IMAGE_TAG: "latest"
       run: |
         # Build a docker container and
         # push it to ECR so that it can
-        # be deployed to ECS.
+        # be deployed to EKS.
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
@@ -53,7 +52,7 @@ jobs:
 
     - name: Update kubeconfig for AWS EKS
       run: |
-        aws eks update-kubeconfig --region us-east-1 --name ${{ env.EKS_CLUSTER_NAME }}
+        aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
 
     - name: Deploy to EKS
       run: |

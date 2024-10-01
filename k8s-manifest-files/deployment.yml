@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: VIT-demo
+  name: vit-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: VIT-demo
+      app: vit-demo
   template:
     metadata:
       labels:
-        app: VIT-demo
+        app: vit-demo
     spec:
       containers:
         - name: file-upload-service
