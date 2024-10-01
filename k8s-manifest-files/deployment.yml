@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: VIT-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: VIT-demo
+  template:
+    metadata:
+      labels:
+        app: VIT-demo
+    spec:
+      containers:
+        - name: file-upload-service
+          image: 879381258312.dkr.ecr.us-east-1.amazonaws.com/demo:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+
+
