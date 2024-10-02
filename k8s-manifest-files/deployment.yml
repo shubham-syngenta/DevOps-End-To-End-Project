@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: vit-demo-container
-          image: 879381258312.dkr.ecr.us-east-1.amazonaws.com/demo:latest
+          image:  879381258312.dkr.ecr.us-east-1.amazonaws.com/demo:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

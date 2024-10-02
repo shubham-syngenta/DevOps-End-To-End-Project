@@ -4,12 +4,14 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: cluster-1
+  name: demo-cluster
   region: us-east-1
 
 nodeGroups:
   - name: ng-1
-    instanceType: m5.large
+    instanceType: t3.medium
+    minSize: 1
+    maxSize: 3
     desiredCapacity: 1
 
 # cloudWatch:
